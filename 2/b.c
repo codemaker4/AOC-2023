@@ -50,29 +50,29 @@ int main(void) {
         read_int(&ptr);
         ptr += 2;
 
-        int red_min = 0;
-        int green_min = 0;
-        int blue_min = 0;
+        int red_max = 0;
+        int green_max = 0;
+        int blue_max = 0;
 
         while (1) {
             int num = read_int(&ptr);
             ptr++; // skip space after num
             switch (*ptr) {
                 case 'r':
-                    if (num > red_min) {
-                        red_min = num;
+                    if (num > red_max) {
+                        red_max = num;
                     }
                     ptr += 3;
                     break;
                 case 'g':
-                    if (num > green_min) {
-                        green_min = num;
+                    if (num > green_max) {
+                        green_max = num;
                     }
                     ptr += 5;
                     break;
                 case 'b':
-                    if (num > blue_min) {
-                        blue_min = num;
+                    if (num > blue_max) {
+                        blue_max = num;
                     }
                     ptr += 4;
                     break;
@@ -85,7 +85,7 @@ int main(void) {
             }
         }
 
-        sum += red_min * green_min * blue_min;
+        sum += red_max * green_max * blue_max;
 
         game_id++;
     }
