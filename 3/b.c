@@ -41,8 +41,7 @@ int main(void) {
     int row = 0;
     int col = 0;
 
-    printf("\nINPUT:\n\n");
-
+    // Get input into 2d array
     while (fgets(line, BUFSIZE, stdin)) {
         if (line[0] == '\n' || line[0] == '\0') {
             continue;
@@ -50,47 +49,47 @@ int main(void) {
         strcpy(input[row], line);
         input[row][strlen(line) - 1] = '\0';
         col = strlen(input[row]);
-        printf("%s\n", input[row]);
         row++;
     }
 
     const int rows = row;
     const int cols = col;
-    printf("ROWS: %d, COLS: %d\n", rows, cols);
     int sum = 0;
 
-    printf("\nPROCESSED:\n\n");
-
+    // For each char in the 2d array:
     for (row = 0; row < rows; row++) {
         for (col = 0; col < cols; col++) {
+            // If it is a gear...
             if (input[row][col] != '*') {
                 continue;
             }
-            printf("* at %d,%d:\n", row, col);
+
+            // Find numbers near it.
             int ratio = -1;
             for (int srow = row - 1; srow <= row + 1; srow++) {
                 int scol = col - 1;
                 if (srow < 0 || srow >= rows || scol < 0) {
                     continue;
                 }
+
+                // Numbers might have already started further back.
                 while (digit(input[srow][scol]) != -1) {
                     scol--;
                 }
                 scol++;
+
                 for (scol = scol; scol <= col + 1 && scol < cols; scol++) {
                     char* ptr = &input[srow][scol];
                     int num = read_int(&ptr);
+
+                    // If a number was found, and it was the second number, add the ratio.
                     if (num != -1) {
                         int len = ptr - &input[srow][scol];
                         scol += len - 1;
-                        printf("num = %d\n", num);
-                        printf("len = %d\n", len);
                         if (ratio == -1) {
                             ratio = num;
-                            printf("ratio = %d\n", ratio);
                         } else {
                             sum += ratio * num;
-                            printf("sum += %d\n", ratio * num);
                         }
                     }
                 }

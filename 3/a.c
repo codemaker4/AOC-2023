@@ -41,8 +41,7 @@ int main(void) {
     int row = 0;
     int col = 0;
 
-    printf("\nINPUT:\n\n");
-
+    // Get input into 2d array
     while (fgets(line, BUFSIZE, stdin)) {
         if (line[0] == '\n' || line[0] == '\0') {
             continue;
@@ -50,25 +49,25 @@ int main(void) {
         strcpy(input[row], line);
         input[row][strlen(line) - 1] = '\0';
         col = strlen(input[row]);
-        printf("%s\n", input[row]);
         row++;
     }
 
     const int rows = row;
     const int cols = col;
-    printf("ROWS: %d, COLS: %d\n", rows, cols);
     int sum = 0;
 
-    printf("\nPROCESSED:\n\n");
-
+    // For each char in the 2d array:
     for (row = 0; row < rows; row++) {
         for (col = 0; col < cols; col++) {
+
+            // If it is a number...
             char* ptr = &input[row][col];
             int num = read_int(&ptr);
             if (num != -1) {
                 int len = ptr - &input[row][col];
                 int should_be_counted = 0;
 
+                // Search for symbols in the area.
                 for (int srow = row - 1; srow <= row + 1; srow++) {
                     for (int scol = col - 1; scol <= col + len; scol++) {
                         if (srow < 0 || srow >= rows || scol < 0 || scol >= cols) {
@@ -76,11 +75,12 @@ int main(void) {
                         }
                         char c = input[srow][scol];
                         if (c != '.' && c != 'x' && digit(c) == -1) {
-                            should_be_counted++;
+                            should_be_counted = 1;
                         }
                     }
                 }
 
+                // If a symbol was found: add num to the sum and mark the number as already counted.
                 if (should_be_counted) {
                     sum += num;
                     for (int wcol = col; wcol < col + len; wcol++) {
@@ -89,10 +89,9 @@ int main(void) {
                 }
             }
         }
-        printf("%s\n", input[row]);
     }
 
-    printf("SUM: %d\n", sum);
+    printf("%d\n", sum);
 
 
     return 0;
