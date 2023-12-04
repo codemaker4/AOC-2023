@@ -35,13 +35,13 @@ int main(void) {
     char line[BUFSIZE];
     int sum = 0;
 
+    // Read all the scratchcards
     while (fgets(line, BUFSIZE, stdin)) {
         if (line[0] == '\n' || line[0] == '\0') {
             continue;
         }
 
-        printf("READING:\n%s", line);
-        
+        // Skip ptr to the first have_num        
         char *ptr = line;
         while (*ptr != ':') {
             ptr++;
@@ -50,27 +50,22 @@ int main(void) {
         int have_nums[BUFSIZE];
         int have_nums_count = 0;
 
+        // Put all the have_nums in an array
         while (*ptr != '|') {
             have_nums[have_nums_count] = read_int_len(&ptr, 2);
-            printf("%d ", have_nums[have_nums_count]);
             have_nums_count++;
-            ptr++; // skip space after num
+            ptr++;
         }
         
         ptr += 2; // skip "| "
         int score = 0;
 
-        printf("\nHAVE_NUMS: %d\n", have_nums_count);
-        printf("SCORING:\n");
-
+        // Find win_nums in the have_nums array and calculate card score
         while (*ptr != '\0') {
-            int win_num =  read_int_len(&ptr, 2);
-            printf("%d ", win_num);
-            
+            int win_num =  read_int_len(&ptr, 2);            
             for(int i = 0; i < have_nums_count; i++) {
                 if (win_num == have_nums[i]) {
                     score = score == 0 ? 1 : score * 2;
-                    printf(":)%d ", score);
                 }
             }
 
@@ -79,7 +74,6 @@ int main(void) {
 
         sum += score;
 
-        printf("\nSCORE: %d\n", score);
     }
 
     printf("%d\n", sum);

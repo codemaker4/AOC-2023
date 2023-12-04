@@ -37,11 +37,13 @@ int main(void) {
     int copies[BUFSIZE];
     int games = 0;
 
+    // Read all the scratchcards
     while (fgets(line, BUFSIZE, stdin)) {
         if (line[0] == '\n' || line[0] == '\0') {
             continue;
         }
         
+        // Skip ptr to the first have_num  
         char *ptr = line;
         while (*ptr != ':') {
             ptr++;
@@ -50,15 +52,17 @@ int main(void) {
         int have_nums[BUFSIZE];
         int have_nums_count = 0;
 
+        // Put all the have_nums in an array
         while (*ptr != '|') {
             have_nums[have_nums_count] = read_int_len(&ptr, 2);
             have_nums_count++;
-            ptr++; // skip space after num
+            ptr++;
         }
         
         ptr += 2; // skip "| "
         int score = 0;
 
+        // Find win_nums in the have_nums array and calculate card score
         while (*ptr != '\0') {
             int win_num =  read_int_len(&ptr, 2);
             
@@ -71,6 +75,7 @@ int main(void) {
             ptr++; // skip space after num
         }
 
+        // Put scores and original copy of card in arrays
         scores[games] = score;
         copies[games] = 1;
         games++;
@@ -78,6 +83,7 @@ int main(void) {
 
     int sum = 0;
 
+    // Calculate all card copies and the sum of the cards
     for (int i = 0; i < games; i++) {
         for (int j = i + 1; j <= i + scores[i]; j++) {
             copies[j] += copies[i];
