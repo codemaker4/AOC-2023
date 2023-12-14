@@ -5,19 +5,8 @@
 
 typedef char chargrid[BUFSIZE][BUFSIZE];
 
-void print_graph(chargrid grid, int cols, int rows) {
-    for (int row = 0; row < rows; row++) {
-        for (int col = 0; col < cols; col++) {
-            putchar(grid[row][col]);
-        }
-        putchar('\n');
-    }
-}
-
 // Modify the grid such that it is diagonally mirrored. Also swap the values in rows and cols.
 void chargrid_diagonal(chargrid grid, int *cols, int *rows) {
-    print_graph(grid, *cols, *rows);
-
     chargrid temp;
     for (int row = 0; row < *rows; row++) {
         for (int col = 0; col < *cols; col++) {
@@ -34,8 +23,6 @@ void chargrid_diagonal(chargrid grid, int *cols, int *rows) {
             grid[row][col] = temp[row][col];
         }
     }
-
-    print_graph(grid, *cols, *rows);
 }
 
 // Returns 1 if the grid is fully horisontally mirrored.
